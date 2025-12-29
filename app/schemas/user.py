@@ -1,12 +1,13 @@
-from pydantic import BaseModel, ConfigDict
+from sqlmodel import SQLModel
 
-class UserCreate(BaseModel):
+class UserCreate(SQLModel):
+    email: str
+    password: str
+    name: str
+    age: str
+
+class UserRead(SQLModel):
+    id: str
     email: str
     name: str
-
-class UserRead(BaseModel):
-    id: int
-    email: str
-    name: str
-
-    model_config = ConfigDict(from_attributes=True)
+    age: int
