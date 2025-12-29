@@ -1,13 +1,13 @@
-from sqlmodel import SQLModel
+from sqlmodel import SQLModel, Field
 
 class UserCreate(SQLModel):
     email: str
-    password: str
+    password: str = Field(min_length=8, max_length=64)
     name: str
-    age: str
+    age: int | None = None
 
 class UserRead(SQLModel):
-    id: str
+    id: int
     email: str
     name: str
-    age: int
+    age: int | None = None

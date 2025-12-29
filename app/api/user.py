@@ -8,6 +8,8 @@ from app.schemas.user import UserCreate, UserRead
 
 from typing import List
 
+from app.core.security import hash_password
+
 router = APIRouter(
     prefix="/users",
     tags=["User"]
@@ -18,8 +20,15 @@ def create_user(
     user: UserCreate,
     session: Session = Depends(get_session)
 ):
-    db_user = User(**user.dict())
+    db_user = User(
+        email=user.email,
+        name=user.name,
+        age=user.age,
+        hashed_password=hash_password(user.password),
+    )
+
     session.add(db_user)
+    
     try:
         session.commit()
     except IntegrityError:
