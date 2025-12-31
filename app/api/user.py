@@ -8,7 +8,7 @@ from app.schemas.user import UserCreate, UserRead
 
 from typing import List
 
-from app.core.security import hash_password
+from app.core.security import hash_password, get_current_user
 
 router = APIRouter(
     prefix="/users",
@@ -41,9 +41,8 @@ def create_user(
     session.refresh(db_user)
     return db_user
 
-@router.get("/", response_model=list[UserRead])
-def list_user(
-    session: Session = Depends(get_session)
+@router.get("/me", response_model=UserRead)
+def read_my_profile(
+    current_user: User = Depends(get_current_user)
 ):
-    users = session.exec(select(User)).all()
-    return users
+    return current_user
