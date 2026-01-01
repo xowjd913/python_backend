@@ -14,4 +14,6 @@ class User(SQLModel, table=True):
     name: str
     age: int | None = None
 
+    role: str
+
     
